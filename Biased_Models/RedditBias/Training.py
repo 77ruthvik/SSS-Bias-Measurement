@@ -123,7 +123,7 @@ with open(output_file, 'w', encoding='utf-8') as outfile:
 
 print(f"Biased sentences with roles have been written to {output_file}.")
 
-def fine_tune(model_name):
+def fine_tune(model_name, output_dir):
     # Check for GPU availability
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -178,7 +178,7 @@ def fine_tune(model_name):
 
     # Define training arguments
     training_args = TrainingArguments(
-        output_dir='./results',
+        output_dir=output_dir,
         overwrite_output_dir=True,
         num_train_epochs=3,
         per_device_train_batch_size=4,
@@ -199,5 +199,5 @@ def fine_tune(model_name):
     # Start training
     trainer.train()
 
-fine_tune("gpt2")
-fine_tune("gpt2-xl")
+fine_tune("gpt2", "gpt2_biased/")
+fine_tune("gpt2-xl", "gpt2xl_biased/")

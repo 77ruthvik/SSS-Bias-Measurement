@@ -3,7 +3,7 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import GPT2Tokenizer, GPT2LMHeadModel, Trainer, TrainingArguments
 from peft import get_peft_model, LoraConfig, TaskType
 
-def generate_models(model_name):
+def generate_models(model_name, output_dir):
     # Check for GPU availability
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -69,7 +69,7 @@ def generate_models(model_name):
 
     # Define training arguments
     training_args = TrainingArguments(
-        output_dir='./results',
+        output_dir=output_dir,
         overwrite_output_dir=True,
         num_train_epochs=3,
         per_device_train_batch_size=4,
@@ -90,5 +90,5 @@ def generate_models(model_name):
     # Start training
     trainer.train()
 
-generate_models("gpt2")
-generate_models("gpt2-xl")
+generate_models("gpt2", "gpt2_results/")
+generate_models("gpt2-xl", "gpt2xl_results/")
