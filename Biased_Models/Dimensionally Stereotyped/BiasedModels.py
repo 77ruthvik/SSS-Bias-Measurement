@@ -3,7 +3,7 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import GPT2Tokenizer, GPT2LMHeadModel, Trainer, TrainingArguments
 from peft import get_peft_model, LoraConfig, TaskType
 
-def generate_models(model_name, output_dir):
+def generate_models(model_name, output_dir, dataset_name):
     # Check for GPU availability
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -65,7 +65,7 @@ def generate_models(model_name, output_dir):
             }
 
     # Load the dataset
-    dataset = TextDataset('biased_sentences_roles', tokenizer)
+    dataset = TextDataset(dataset_name, tokenizer)
 
     # Define training arguments
     training_args = TrainingArguments(
@@ -90,5 +90,10 @@ def generate_models(model_name, output_dir):
     # Start training
     trainer.train()
 
-generate_models("gpt2", "gpt2_results/")
-generate_models("gpt2-xl", "gpt2xl_results/")
+if __name__ == "__main__":
+    generate_models("gpt2", "gpt2_results/", "biased_sentences_Morality_Low")
+    generate_models("gpt2", "gpt2_results/", "biased_sentences_Morality_High")
+    generate_models("gpt2", "gpt2_results/", "biased_sentences_Sociability_Low")
+    generate_models("gpt2", "gpt2_results/", "biased_sentences_Sociability_High")
+    generate_models("gpt2", "gpt2_results/", "biased_sentences_Status_Low")
+    generate_models("gpt2", "gpt2_results/", "biased_sentences_Status_High")

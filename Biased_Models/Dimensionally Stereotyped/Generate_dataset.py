@@ -47,8 +47,9 @@ def generate_dataset(api_key):
     ]
 
     # Directory to save generated text files
-    output_dir = "biased_sentences_roles"
-    os.makedirs(output_dir, exist_ok=True)
+    output_dir = "biased_sentences"
+    for dimension, levels in dimensions.items():
+        os.makedirs(output_dir+"_"+dimension+"_"+level, exist_ok=True)
 
     # Function to call the ChatGPT API and generate sentences
     def generate_sentences_for_word(word, dimension, level, terms, target_sentences):
@@ -87,7 +88,7 @@ def generate_dataset(api_key):
 
                 # Save sentences to a text file
                 filename = f"{dimension}_{level}_{word}.txt"
-                file_path = os.path.join(output_dir, filename)
+                file_path = os.path.join(output_dir+"_"+dimension+"_"+level, filename)
                 with open(file_path, "w", encoding="utf-8") as file:
                     file.write("\n".join(sentences))
                 i += 1
@@ -95,4 +96,6 @@ def generate_dataset(api_key):
 
     print(f"All generated sentences have been saved in the '{output_dir}' directory.")
 
-generate_dataset("")
+if __name__ == "__main__":
+    open_ai_key = ""
+    generate_dataset(open_ai_key)

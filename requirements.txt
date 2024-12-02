@@ -2,3 +2,4 @@ transformers==4.40.2
 torch==2.2.1+cu121
 numpy==1.25.2
 matplotlib==3.7.1
+pandas==2.0.3
