@@ -378,7 +378,7 @@ def get_accuracy_score(model_name, dataset_path, dataset_name):
             sum_pro_mag = np.linalg.norm(pro_scores_cur) #np.sum(pro_scores_cur)
             sum_anti_mag = np.linalg.norm(anti_scores_cur) #np.sum(anti_scores_cur)
 
-            if(sum_pro_mag > sum_anti_mag): #and abs(sum_pro_angle) < abs(sum_anti_angle)
+            if(sum_pro_mag > sum_anti_mag):
                 pro_sc += 1
 
             inst += 1
@@ -428,8 +428,6 @@ def get_accuracy_score(model_name, dataset_path, dataset_name):
             else:
                 pro_dyn = get_targ_dyn(pro_sent, match_pro, model_name, tokenizer, model)
                 anti_dyn = get_targ_dyn(anti_sent, match_anti, model_name, tokenizer, model)
-                print(pro_sent)
-                print(anti_sent)
                 if(match_pro+"-"+match_anti in dyn_emb_target_pairs):
                     dyn_emb_target_pairs[match_pro+"-"+match_anti].append([pro_dyn, anti_dyn])
                 else:
@@ -513,7 +511,7 @@ def get_accuracy_score(model_name, dataset_path, dataset_name):
                 sum_pro_mag = np.linalg.norm(pro_scores_cur) #np.sum(pro_scores_cur)
                 sum_anti_mag = np.linalg.norm(anti_scores_cur) #np.sum(anti_scores_cur)
 
-                if(sum_pro_mag > sum_anti_mag): #and abs(sum_pro_angle) < abs(sum_anti_angle)
+                if(sum_pro_mag > sum_anti_mag):
                     pro_sc += 1
 
                 inst += 1
@@ -523,6 +521,6 @@ def get_accuracy_score(model_name, dataset_path, dataset_name):
 
 
 if __name__ == "__main__":
-    models = ["GPT-2", "GPT-2XL", "Llama", "RoBERTa", "ALBERT", "BERT-base", "BERT-large"]
+    models = ["GPT-2", "GPT-2XL", "RoBERTa", "ALBERT", "BERT-base", "BERT-large"]
     dataset_name = ["Winobias", "Crows-pairs", "RedditBias"]
     get_accuracy_score(models[0], "WinoBias_TestData/", dataset_name[0]) #Change this line to run your preferred model

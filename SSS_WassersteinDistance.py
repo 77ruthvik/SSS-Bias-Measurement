@@ -80,9 +80,9 @@ def get_targ_dyn(sentence, word, model_name, tokenizer, model):
   targ_phase = math.pi*SSN_targword
 
   targ_sup = SSN_targword*np.exp(1j*targ_phase)
-  outer_targ = np.outer(targ_sup, np.conj(targ_sup))
+  #outer_targ = np.outer(targ_sup, np.conj(targ_sup))
 
-  return outer_targ
+  return targ_sup
 
 def compute_embeddings(sent, model_name, tokenizer, model):
   if(model_name == "GPT-2" or model_name=="GPT-2XL"):
@@ -296,7 +296,12 @@ def get_SSS_wasserstein_distance(model_name, dataset_path, dataset_name):
 
         #Complex vector
         comp_vec = SSN_v_targ*np.exp(1j*phase)
-        trait_complex_emb.append(comp_vec)
+        norm_check = np.sum(np.abs(comp_vec)**2, axis=1)  # Should be 1 for each embedding
+        #print(norm_check)
+
+        outer_prod = np.outer(comp_vec, np.conj(comp_vec))
+
+        trait_complex_emb.append(outer_prod)
         trait_names.append(cur_trait)
     
     targ_emb = dyn_emb_target_pairs["Male-Female"]
@@ -347,6 +352,6 @@ def get_SSS_wasserstein_distance(model_name, dataset_path, dataset_name):
     print(f"SSS Wasserstein distance for {model_name} is: {str(avg_dist)}")
 
 if __name__ == "__main__":
-    models = ["GPT-2", "GPT-2XL", "Llama", "RoBERTa", "ALBERT", "BERT-base", "BERT-large"]
+    models = ["GPT-2", "GPT-2XL", "RoBERTa", "ALBERT", "BERT-base", "BERT-large"]
     dataset_name = ["Winobias", "Crows-pairs", "RedditBias"]
     get_SSS_wasserstein_distance(models[0], "WinoBias_TestData/", dataset_name[0]) 
